@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
 // --
 import store from './store/configureStore'
@@ -16,8 +16,11 @@ const App = () => {
             <Link to="/">News</Link>
             <Link to="/counter">Counter</Link>
           </div>
-          <Route exact path="/" component={News}/>
-          <Route path="/counter" component={Counter}/>
+          <Switch>
+            <Route path="/news" component={News}/>
+            <Route path="/counter" component={Counter}/>
+            <Redirect to="/news"/>
+          </Switch>
         </div>
       </Router>
     </Provider>

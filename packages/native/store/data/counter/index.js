@@ -4,7 +4,6 @@ const COUNT_RESET = 'COUNT_RESET';
 export const countMore = () => ({ type: COUNT_MORE });
 export const resetCount = () => ({ type: COUNT_RESET });
 
-
 const initialState = () => 0;
 
 export default (state = initialState(), action) => {
@@ -16,6 +15,6 @@ export default (state = initialState(), action) => {
       return initialState();
 
     default:
-      return state
+      return state;
   }
-}
+};

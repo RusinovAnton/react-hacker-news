@@ -1,12 +1,39 @@
 import React from 'react'
+import newsContainer, { defaultProps, propTypes } from '../store/data/news/container'
 
-const News = (props) => {
+class News extends React.Component {
+  componentDidMount() {
+    this.props.requestTopStories();
+  }
 
-  return (
-    <div>me is news</div>
-  )
-};
+  render() {
+    const { news } = this.props;
 
-News.propTypes = {};
+    if (!news) {
+      return <span>...</span>;
+    }
 
-export default News
+    return (
+      <div>
+        {news.map(item => {
+            const { by, time, title, url, type, score } = item;
+
+            return (
+              <div key={time}>
+                <span>{score}</span>
+                <p>{type}</p>
+                <h2><a href={url}>{title}</a></h2>
+                <span>by: {by}</span>
+              </div>
+            )
+          }
+        )}
+      </div>
+    );
+  }
+}
+
+News.defaultProps = defaultProps;
+News.propTypes = propTypes;
+
+export default newsContainer(News);
