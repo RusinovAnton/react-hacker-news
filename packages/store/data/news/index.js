@@ -19,7 +19,7 @@ const newsInitialState = () => ({
   isLoading: false,
   items: [],
   page: 0,
-  per_page: 10,
+  per_page: 20,
 });
 
 export default (state = newsInitialState(), action) => {
