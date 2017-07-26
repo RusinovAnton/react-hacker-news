@@ -1,7 +1,6 @@
-import { connect } from 'react-redux'
-import { requestTopStories } from './index'
-import PropTypes from 'prop-types'
-
+import { connect } from 'react-redux';
+import { requestTopStories } from './index';
+import PropTypes from 'prop-types';
 
 export const defaultProps = {
   news: [],
@@ -12,7 +11,4 @@ export const propTypes = {
   requestTopStories: PropTypes.func.isRequired,
 };
 
-export default connect(
-  (state) => ({ news: state.news.items }),
-  { requestTopStories }
-)
+export default connect(state => ({ news: state.news.items, currentPage: state.news.page }), { requestTopStories });

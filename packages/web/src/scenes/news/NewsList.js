@@ -4,7 +4,11 @@ import NewsItem from './NewsItem';
 
 class News extends React.Component {
   componentDidMount() {
-    this.props.requestTopStories();
+    const { currentPage, requestTopStories } = this.props;
+
+    if (!currentPage) {
+      requestTopStories();
+    }
   }
 
   render() {
