@@ -1,6 +1,6 @@
 import { fork } from 'redux-saga/effects';
-import { topStories } from './news/sagas';
+import { newsItems } from './news/sagas';
 
 export default function*() {
-  yield fork(topStories);
+  yield fork(newsItems);
 }

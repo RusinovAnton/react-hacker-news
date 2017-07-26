@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ago } from 'store/utils/time';
+
 const NewsItem = props => {
-  const { by, time, descendants, title, url, type, score } = props;
+  const { by, time, descendants, title, url, score } = props;
 
   return (
     <div>
@@ -12,21 +13,17 @@ const NewsItem = props => {
         </a>
       </h2>
       <span>
+        score {score}
+      </span>
+      {' • '}
+      <span>
         by: {by}
       </span>
-      {' | '}
-      <span>
-        with score {score}
-      </span>
-      {' | '}
-      <span>
-        of {type}
-      </span>
-      {' | '}
+      {' • '}
       <span>
         {ago(time)}
       </span>
-      {' | '}
+      {' • '}
       <span>
         {descendants} comments
       </span>
@@ -41,7 +38,7 @@ NewsItem.propTypes = {
   time: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
 };
 
 export default NewsItem;

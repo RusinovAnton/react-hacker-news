@@ -6,10 +6,11 @@
     "env": {
         "development": {
             "plugins": [
+                "transform-react-jsx-source",
                 "lodash",
+                "transform-class-properties",
                 "transform-object-rest-spread",
                 "transform-regenerator",
-                "transform-react-jsx-source",
                 [
                     "transform-runtime",
                     {
@@ -23,11 +24,12 @@
         },
         "production": {
             "plugins": [
-                "lodash",
-                "transform-object-rest-spread",
-                "transform-regenerator",
                 "react-class-display-name",
                 "transform-react-inline-elements",
+                "lodash",
+                "transform-object-rest-spread",
+                "transform-class-properties",
+                "transform-regenerator",
                 [
                     "transform-runtime",
                     {

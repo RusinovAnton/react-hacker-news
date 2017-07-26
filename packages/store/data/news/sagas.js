@@ -1,56 +1,59 @@
-import { call, put, select, take, takeLatest, all } from 'redux-saga/effects';
+import { call, put, select, take, takeLatest, all, takeEvery, fork } from 'redux-saga/effects';
 import { getItemById, getTopStoriesIdList } from '../../services/hackerNews';
 import {
-  TOP_STORIES_ITEMS_FETCH_FAIL,
-  TOP_STORIES_ITEMS_FETCH_REQUESTED,
-  TOP_STORIES_ITEMS_FETCH_SUCCESS,
+  NEWS_ITEMS_FETCH_REQUESTED,
+  NEWS_PAGE_CHANGED,
+  NEWS_PAGE_SET,
+  newsItemsError,
+  requestNewsItems,
+  storeNewsItems,
 } from './index';
 
 /** Sagas **/
-const getCurrentPageItemsIds = function*(topStoriesIdList) {
+const getCurrentPageItemsIds = function*(newsItemsIdList) {
   const { per_page, page } = yield select(state => state.news);
   const startIndex = page * per_page;
   const endIndex = startIndex + per_page;
 
   const currentPageItemsIds = [];
   for (let i = startIndex; i <= endIndex; i++) {
-    currentPageItemsIds.push(topStoriesIdList[i]);
+    currentPageItemsIds.push(newsItemsIdList[i]);
   }
 
   return currentPageItemsIds;
 };
 
-const getNextPage = topStoriesIdList =>
-  function*(isInitialPageLoad) {
-    const currentPageItemsIds = yield getCurrentPageItemsIds(topStoriesIdList);
+const requestTopStories = newsItemsIdList =>
+  function*() {
+    const currentPageItemsIds = yield getCurrentPageItemsIds(newsItemsIdList);
 
     try {
-      let currentPage = 0;
-      if (isInitialPageLoad === 'yes') {
-        const { page } = yield select(state => state.news);
-        currentPage = page + 1;
-      }
       const data = yield all(currentPageItemsIds.map(id => getItemById(id)));
       const newsList = data.map(({ data }) => data);
 
-      yield put({
-        type: TOP_STORIES_ITEMS_FETCH_SUCCESS,
-        payload: {
-          items: newsList,
-          page: currentPage,
-        },
-      });
+      yield put(storeNewsItems(newsList));
     } catch (error) {
-      yield put({ type: TOP_STORIES_ITEMS_FETCH_FAIL, payload: { error } });
+      yield put(newsItemsError(error));
     }
   };
 
-export const topStories = function*() {
-  yield take(TOP_STORIES_ITEMS_FETCH_REQUESTED);
+const newsItemsRequests = function*() {
+  yield take(NEWS_ITEMS_FETCH_REQUESTED);
   const response = yield call(getTopStoriesIdList);
-  const topStoriesIdList = response.data;
-  const getNextPageFn = getNextPage(topStoriesIdList);
-  yield getNextPageFn('yes');
+  const newsItemsIdList = response.data;
+  const requestTopStoriesFn = requestTopStories(newsItemsIdList);
+  yield requestTopStoriesFn();
 
-  yield takeLatest(TOP_STORIES_ITEMS_FETCH_REQUESTED, getNextPageFn);
+  yield takeLatest(NEWS_ITEMS_FETCH_REQUESTED, requestTopStoriesFn);
+};
+
+const newsPagination = function*() {
+  yield takeEvery([NEWS_PAGE_SET, NEWS_PAGE_CHANGED], function*() {
+    yield put(requestNewsItems());
+  });
+};
+
+export const newsItems = function*() {
+  yield fork(newsItemsRequests);
+  yield fork(newsPagination);
 };

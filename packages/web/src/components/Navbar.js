@@ -5,6 +5,7 @@ export default () => {
   return (
     <div>
       <Link to="/">News</Link>
+      {' • '}
       <Link to="/counter">Counter</Link>
     </div>
   );
