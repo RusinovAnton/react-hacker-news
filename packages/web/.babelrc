@@ -1,8 +1,41 @@
 {
-    "presets": ["react", "es2015", "babel-preset-expo"],
+    "presets": [
+        "react",
+        "es2015"
+    ],
     "env": {
         "development": {
-            "plugins": ["transform-react-jsx-source"]
+            "plugins": [
+                "transform-object-rest-spread",
+                "transform-regenerator",
+                "transform-react-jsx-source",
+                [
+                    "transform-runtime",
+                    {
+                        "helpers": false,
+                        "polyfill": false,
+                        "regenerator": true,
+                        "moduleName": "babel-runtime"
+                    }
+                ]
+            ]
+        },
+        "production": {
+            "plugins": [
+                "transform-object-rest-spread",
+                "transform-regenerator",
+                "react-class-display-name",
+                "transform-react-inline-elements",
+                [
+                    "transform-runtime",
+                    {
+                        "helpers": false,
+                        "polyfill": false,
+                        "regenerator": true,
+                        "moduleName": "babel-runtime"
+                    }
+                ]
+            ]
         }
     }
 }
