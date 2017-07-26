@@ -1,5 +1,5 @@
 import React from 'react';
-import counterContainer, { defaultProps, propTypes } from '../store/data/counter/container';
+import counterContainer, { defaultProps, propTypes } from 'store/data/counter/container';
 
 export const Counter = ({ counter, countMore, resetCount }) => {
   return (

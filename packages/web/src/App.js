@@ -2,9 +2,10 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
 // --
-import store from './store/configureStore'
-import News from './scenes/News'
-import Counter from './scenes/Counter'
+import store from 'store/configureStore'
+import News from './scenes/news/NewsList'
+import Counter from './scenes/counter/Counter'
+
 
 
 const App = () => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import newsContainer, { defaultProps, propTypes } from '../store/data/news/container'
+import newsContainer, { defaultProps, propTypes } from 'store/data/news/container'
 
 class News extends React.Component {
   componentDidMount() {
