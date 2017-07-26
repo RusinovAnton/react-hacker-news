@@ -10,7 +10,7 @@ export const getNextPage = () => ({ type: NEWS_PAGE_CHANGED, payload: { pageDelt
 export const getPrevPage = () => ({ type: NEWS_PAGE_CHANGED, payload: { pageDelta: -1 } });
 export const newsItemsError = error => ({ type: NEWS_ITEMS_FETCH_FAIL, payload: { error } });
 export const requestNewsItems = () => ({ type: NEWS_ITEMS_FETCH_REQUESTED });
-export const setPage = (page) => ({ type: NEWS_PAGE_SET, payload: { page } });
+export const setPage = page => ({ type: NEWS_PAGE_SET, payload: { page } });
 export const storeNewsItems = items => ({ type: NEWS_ITEMS_FETCH_SUCCESS, payload: { items } });
 
 /** Reducer **/
@@ -38,6 +38,7 @@ export default (state = newsInitialState(), action) => {
         return { ...state, page: currentPage };
       })();
     case NEWS_PAGE_SET:
+      return { ...state, page: action.payload.page >= 0 ? action.payload.page : 0 };
     case NEWS_ITEMS_FETCH_SUCCESS:
       return { ...state, error: null, ...action.payload, isLoading: false };
     case NEWS_ITEMS_FETCH_FAIL:

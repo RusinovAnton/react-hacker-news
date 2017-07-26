@@ -13,7 +13,7 @@ import {
 const getCurrentPageItemsIds = function*(newsItemsIdList) {
   const { per_page, page } = yield select(state => state.news);
   const startIndex = page * per_page;
-  const endIndex = startIndex + per_page;
+  const endIndex = startIndex + per_page - 1;
 
   const currentPageItemsIds = [];
   for (let i = startIndex; i <= endIndex; i++) {
